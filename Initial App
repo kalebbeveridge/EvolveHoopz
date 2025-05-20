@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoachPro Basketball</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #f97316;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
+      --secondary-bg: #2a2a2a;
+      --text-color: #ffffff;
+      --text-secondary: #a0a0a0;
+    }
+    
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    
+    .header {
+      background-color: var(--dark-bg);
+      border-bottom: 1px solid #333;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    
+    .search-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+    }
+    
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+    
+    .tab-bar {
+      background-color: var(--secondary-bg);
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+    
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    
+    .tab-btn.active {
+      color: var(--primary-color);
+    }
+    
+    .tab-btn i {
+      margin-bottom: 5px;
+      font-size: 1.2rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .view-all {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    
+    .featured-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+    
+    .featured-card {
+      flex: 0 0 250px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .featured-img {
+      height: 120px;
+      background-color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .card-content {
+      padding: 12px;
+    }
+    
+    .card-title {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    
+    .card-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+    }
+    
+    .filter-btn {
+      padding: 5px 12px;
+      border-radius: 20px;
+      background-color: var(--secondary-bg);
+      border: none;
+      color: var(--text-color);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary-color);
+    }
+    
+    .drill-item {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .drill-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 12px;
+    }
+    
+    .drill-info {
+      display: flex;
+    }
+    
+    .drill-details h3 {
+      font-size: 1rem;
+      margin: 0 0 5px 0;
+    }
+    
+    .drill-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .bookmark-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+    }
+    
+    .bookmark-btn.active {
+      color: var(--primary-color);
+    }
+    
+    .event-card {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    
+    .event-img {
+      height: 120px;
+      background-color: var(--secondary-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .event-content {
+      padding: 15px;
+    }
+    
+    .event-title {
+      color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+    
+    .event-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    .event-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+    
+    .event-tag {
+      display: inline-block;
+      background-color: var(--secondary-bg);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+    
+    .register-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      width: 100%;
+      margin-top: 12px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .empty-icon {
+      font-size: 2.5rem;
+      color: #555;
+      margin-bottom: 15px;
+    }
+    
+    .action-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+    
+    .plan-create-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      width: 100%;
+      margin-top: 15px;
+    }
+    
+    .back-btn {
+      color: var(--primary-color);
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      background-color: var(--secondary-bg);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .tag i {
+      margin-right: 5px;
+    }
+
+    .detail-section {
+      margin-bottom: 20px;
+    }
+
+    .detail-section h3 {
+      color: var(--primary-color);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .detail-list {
+      padding-left: 20px;
+    }
+
+    .detail-list li {
+      margin-bottom: 5px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .action-buttons button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .primary-btn {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .secondary-btn {
+      background-color: var(--secondary-bg);
+      color: white;
+    }
+
+    .button-icon {
+      margin-right: 8px;
+    }
+
+    .plan-container {
+      padding: 15px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #444;
+      background-color: var(--secondary-bg);
+      color: white;
+    }
+
+    .section-header-bar {
+      background-color: var(--secondary-bg);
+      padding: 10px 15px;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-body {
+      padding: 15px;
+      background-color: var(--card-bg);
+      border-radius: 0 0 8px 8px;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .section-duration {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .add-btn {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      background: none;
+      border: none;
+    }
+
+    .plans-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .plan-card {
+      flex: 0 0 150px;
+      height: 180px;
+      background-color: var(--secondary-bg);
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .plan-create-card {
+      border: 2px dashed var(--primary-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Hide all views initially */
+    .view {
+      display: none;
+    }
+
+    /* Show active view */
+    .view.active {
+      display: block;
+    }
+
+    /* Hide all drill details initially */
+    .drill-detail-view {
+      display: none;
+    }
+
+    /* Hide all event details initially */
+    .event-detail-view {
+      display: none;
+    }
+
+    /* Hide practice builder initially */
+    .practice-builder {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">CoachPro Basketball</div>
+      <button class="search-btn">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    
+    <!-- Content Area -->
+    <div class="content">
+      <!-- Library View -->
+      <div id="library-view" class="view active">
+        <h2>Drill Library</h2>
+        
+        <!-- Featured Drills -->
+        <div class="section-header">
+          <h3>Featured Drills</h3>
+          <a href="#" class="view-all">View All</a>
+        </div>
+        
+        <div class="featured-container">
+          <div class="featured-card" onclick="showDrillDetail(1)">
+            <div class="featured-img">
+              <i class="fas fa-play" style="color: white; font-size: 1.5rem;"></i>
+            </div>
+            <div class="card-content">
+              <h4 class="card-title">Shooting Form Fundamentals</h4>
+              <div class="card-meta">
+                <span><i class="fas fa-award"></i> Beginner</span>
+                <span><i class="fas fa-clock"></i> 15 min</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="featured-card" onclick="showDrillDetail(5)">
+            <div class="featured-img" style="background-color: #3b82f6;">
+              <i class="fas fa-play" style="color: white; font-size: 1.5rem;"></i>
+            </div>
+            <div class="card-content">
+              <h4 class="card-title">3-on-2, 2-on-1 Fast Break</h4>
+              <div class="card-meta">
+                <span><i class="fas fa-award"></i> Intermediate</span>
+                <span><i class="fas fa-clock"></i> 15 min</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section-header">
+          <h3>All Drills</h3>
+          <button class="view-all">
+            <i class="fas fa-filter"></i> Filter
+          </button>
+        </div>
+        
+        <!-- Categories Filter -->
+        <div class="filter-tabs">
+          <button class="filter-btn active">All Drills</button>
+          <button class="filter-btn">Shooting</button>
+          <button class="filter-btn">Defense</button>
+          <button class="filter-btn">Ball Handling</button>
+          <button class="filter-btn">Passing</button>
+          <button class="filter-btn">Team</button>
+        </div>
+        
+        <!-- Age Groups Filter -->
+        <div class="filter-tabs">
+          <button class="filter-btn active">All Ages</button>
+          <button class="filter-btn">U8</button>
+          <button class="filter-btn">U10</button>
+          <button class="filter-btn">U12</button>
+          <button class="filter-btn">U14</button>
+          <button class="filter-btn">U16</button>
+        </div>
+        
+        <!-- Drills List -->
+        <div class="drills-list">
+          <div class="drill-item" onclick="showDrillDetail(1)">
+            <div class="drill-info">
+              <div class="drill-icon">
+                <i class="fas fa-play" style="color: white;"></i>
+              </div>
+              <div class="drill-details">
+                <h3>Shooting Form Fundamentals</h3>
+                <div class="drill-meta">
+                  <span><i class="fas fa-award"></i> Beginner</span>
+                  <span><i class="fas fa-clock"></i> 15 min</span>
+                  <span><i class="fas fa-check-circle"></i> Shooting</span>
+                </div>
+              </div>
+            </div>
+            <button class="bookmark-btn" onclick="event.stopPropagation()">
+              <i class="far fa-bookmark"></i>
+            </button>
+          </div>
+          
+          <div class="drill-item" onclick="showDrillDetail(2)">
+            <div class="drill-info">
+              <div class="drill-icon">
+                <i class="fas fa-play" style="color: white;"></i>
+              </div>
+              <div class="drill-details">
+                <h3>Defensive Stance & Footwork</h3>
+                <div class="drill-meta">
+                  <span><i class="fas fa-award"></i> Beginner</span>
+                  <span><i class="fas fa-clock"></i> 10 min</span>
+                  <span><i class="fas fa-check-circle"></i> Defense</span>
+                </div>
+              </div>
+            </div>
+            <button class="bookmark-btn active" onclick="event.stopPropagation()">
+              <i class="fas fa-bookmark"></i>
+            </button>
+          </div>
+          
+          <div class="drill-item" onclick="showDrillDetail(3)">
+            <div class="drill-info">
+              <div class="drill-icon">
+                <i class="fas fa-play" style="color: white;"></i>
+              </div>
+              <div class="drill-details">
+                <h3>Passing Circle Drill</h3>
+                <div class="drill-meta">
+                  <span><i class="fas fa-award"></i> All Levels</span>
+                  <span><i class="fas fa-clock"></i> 8 min</span>
+                  <span><i class="fas fa-check-circle"></i> Passing</span>
+                </div>
+              </div>
+            </div>
+            <button class="bookmark-btn" onclick="event.stopPropagation()">
+              <i class="far fa-bookmark"></i>
+            </button>
+          </div>
+          
+          <div class="drill-item" onclick="showDrillDetail(4)">
+            <div class="drill-info">
+              <div class="drill-icon">
+                <i class="fas fa-play" style="color: white;"></i>
+              </div>
+              <div class="drill-details">
+                <h3>Dribbling Relays</h3>
+                <div class="drill-meta">
+                  <span><i class="fas fa-award"></i> Beginner</span>
+                  <span><i class="fas fa-clock"></i> 12 min</span>
+                  <span><i class="fas fa-check-circle"></i> Ball Handling</span>
+                </div>
+              </div>
+            </div>
+            <button class="bookmark-btn" onclick="event.stopPropagation()">
+              <i class="far fa-bookmark"></i>
+            </button>
+          </div>
+          
+          <div class="drill-item" onclick="showDrillDetail(5)">
+            <div class="drill-info">
+              <div class="drill-icon">
+                <i class="fas fa-play" style="color: white;"></i>
+              </div>
+              <div class="drill-details">
+                <h3>3-on-2, 2-on-1 Fast Break</h3>
+                <div class="drill-meta">
+                  <span><i class="fas fa-award"></i> Intermediate</span>
+                  <span><i class="fas fa-clock"></i> 15 min</span>
+                  <span><i class="fas fa-check-circle"></i> Team</span>
+                </div>
+              </div>
+            </div>
+            <button class="bookmark-btn active" onclick="event.stopPropagation()">
+              <i class="fas fa-bookmark"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Events View -->
+      <div id="events-view" class="view">
+        <h2>Upcoming Events</h2>
+        
+        <div class="event-card" onclick="showEventDetail(1)">
+          <div class="event-img">
+            <i class="fas fa-play" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Live Q&A with Coach Miller</h3>
+            <p class="event-desc">Join Coach Miller for an interactive session covering youth basketball development.</p>
+            <div class="event-meta">
+              <span><i class="fas fa-calendar"></i> May 25, 2025</span>
+              <span><i class="fas fa-clock"></i> 7:00 PM</span>
+            </div>
+            <div>
+              <span class="event-tag">Zoom</span>
+            </div>
+            <button class="register-btn">Register Now</button>
+          </div>
+        </div>
+        
+        <div class="event-card" onclick="showEventDetail(2)">
+          <div class="event-img">
+            <i class="fas fa-play" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Defending the Pick & Roll Workshop</h3>
+            <p class="event-desc">Learn how to teach pick & roll defense to youth basketball players.</p>
+            <div class="event-meta">
+              <span><i class="fas fa-calendar"></i> June 2, 2025</span>
+              <span><i class="fas fa-clock"></i> 6:30 PM</span>
+            </div>
+            <div>
+              <span class="event-tag">Zoom</span>
+            </div>
+            <button class="register-btn">Register Now</button>
+          </div>
+        </div>
+        
+        <div class="event-card" onclick="showEventDetail(3)">
+          <div class="event-img">
+            <i class="fas fa-play" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Coaching Mental Toughness Webinar</h3>
+            <p class="event-desc">Develop strategies to build mental resilience in young athletes.</p>
+            <div class="event-meta">
+              <span><i class="fas fa-calendar"></i> June 10, 2025</span>
+              <span><i class="fas fa-clock"></i> 8:00 PM</span>
+            </div>
+            <div>
+              <span class="event-tag">Zoom</span>
+            </div>
+            <button class="register-btn">Register Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- My Drills View -->
+      <div id="mydrills-view" class="view">
+        <h2>My Saved Drills</h2>
+        
+        <div class="plan-container">
+          <h3>Practice Plans</h3>
+          <div class="plans-row">
+            <div class="plan-card plan-create-card" onclick="showPracticeBuilder()">
+              <i class="fas fa-plus" style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 10px;"></i>
+              <span>Create New Plan</span>
+            </div>
+            <div class="plan-card">
+              <h4 style="font-size: 0.9rem; margin-bottom: 8px;">U12 Practice</h4>
+              <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">May 15, 2025</p>
+              <div style="height: 90px; background-color: var(--dark-bg); border-radius: 4px; margin-bottom: 8px;"></div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">6 drills</span>
+                <button style="background: var(--dark-bg); border: none; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                  <i class="fas fa-play" style="color: var(--text-secondary); font-size: 0.7rem;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="drill-item" onclick="showDrillDetail(2)">
+          <div class="drill-info">
+            <div class="drill-icon">
+              <i class="fas fa-play" style="color: white;"></i>
+            </div>
+            <div class="drill-details">
+              <h3>Defensive Stance & Footwork</h3>
+              <div class="drill-meta">
+                <span><i class="fas fa-award"></i> Beginner</span>
+                <span><i class="fas fa-clock"></i> 10 min</span>
+                <span><i class="fas fa-check-circle"></i> Defense</span>
+              </div>
+            </div>
+          </div>
+          <button class="bookmark-btn active" onclick="event.stopPropagation()">
+            <i class="fas fa-bookmark"></i>
+          </button>
+        </div>
+        
+        <div class="drill-item" onclick="showDrillDetail(5)">
+          <div class="drill-info">
+            <div class="drill-icon">
+              <i class="fas fa-play" style="color: white;"></i>
+            </div>
+            <div class="drill-details">
+              <h3>3-on-2, 2-on-1 Fast Break</h3>
+              <div class="drill-meta">
+                <span><i class="fas fa-award"></i> Intermediate</span>
+                <span><i class="fas fa-clock"></i> 15 min</span>
+                <span><i class="fas fa-check-circle"></i> Team</span>
+              </div>
+            </div>
+          </div>
+          <button class="bookmark-btn active" onclick="event.stopPropagation()">
+            <i class="fas fa-bookmark"></i>
+          </button>
+        </div>
+        
+        <button class="plan-create-btn" onclick="showPracticeBuilder()">
+          Create Practice Plan
+        </button>
+      </div>
+      
+      <!-- Drill Detail View (Hidden by default) -->
+      <div id="drill-detail-view-1" class="drill-detail-view">
+        <button class="back-btn" onclick="hideDrillDetail()">
+          <i class="fas fa-arrow-left"></i> Back to Library
+        </button>
+        
+        <div class="event-card">
+          <div class="event-img">
+            <i class="fas fa-play" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          </div>
+          <div class="event-content">
+            <div class="d-flex justify-content-between align-items-start">
+              <h2>Shooting Form Fundamentals</h2>
+              <button class="bookmark-btn">
+                <i class="far fa-bookmark"></i>
+              </button>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0;">
+              <span class="tag"><i class="fas fa-award"></i> Beginner</span>
+              <span class="tag"><i class="fas fa-clock"></i> 15 min</span>
+              <span class="tag"><i class="fas fa-check-circle"></i> Shooting</span>
+              <span class="tag"><i class="fas fa-users"></i> U8, U10, U12, U14</span>
+            </div>
+            
+            <p>A step-by-step approach to teaching proper shooting mechanics to young players.</p>
+            
+            <div class="detail-section">
+              <h3>Objective</h3>
+              <p>Develop proper form that will translate to game situations</p>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Key Teaching Points</h3>
+              <ul class="detail-list">
+                <li>Balanced stance with feet shoulder-width apart</li>
+                <li>Elbow under the ball, wrist cocked</li>
+                <li>Follow through with wrist snap, fingers pointing down</li>
+                <li>Eyes on target, not on the ball</li>
+              </ul>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Setup</h3>
+              <p>Players spread out around the perimeter with one ball per player</p>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Steps</h3>
+              <ol class="detail-list">
+                <li>Start with no jumping, focus on hand position and follow through</li>
+                <li>Add slight knee bend but still no jumping</li>
+                <li>Progress to full shooting motion with jump</li>
+                <li>Incorporate movement: catch and shoot</li>
+              </ol>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Variations</h3>
+              <ul class="detail-list">
+                <li>Partner feedback drills</li>
+                <li>Form shooting contests</li>
+                <li>Add defensive pressure gradually</li>
+              </ul>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Coaching Tips</h3>
+              <p>For younger players (U8-U10), use smaller balls and lower hoops if available</p>
+            </div>
+            
+            <div class="action-buttons">
+              <button class="primary-btn">
+                <i class="fas fa-video button-icon"></i> Watch Demo
+              </button>
+              <button class="secondary-btn" onclick="showPracticeBuilder()">
+                <i class="fas fa-plus button-icon"></i> Add to Plan
+              </button>
+            </div>
+          </div>
+        </div>
+</div>
+      
+      <!-- Event Detail View (Hidden by default) -->
+      <div id="event-detail-view-1" class="event-detail-view">
+        <button class="back-btn" onclick="hideEventDetail()">
+          <i class="fas fa-arrow-left"></i> Back to Events
+        </button>
+        
+        <div class="event-card">
+          <div class="event-img">
+            <i class="fas fa-play" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+          </div>
+          <div class="event-content">
+            <h2 class="event-title">Live Q&A with Coach Miller</h2>
+            
+            <div style="margin: 15px 0;">
+              <div class="mb-2 d-flex align-items-center">
+                <i class="fas fa-calendar text-secondary me-2"></i>
+                <span>May 25, 2025 at 7:00 PM</span>
+              </div>
+              <div class="mb-2 d-flex align-items-center">
+                <i class="fas fa-video text-secondary me-2"></i>
+                <span>Zoom</span>
+              </div>
+              <div class="mb-2 d-flex align-items-center">
+                <i class="fas fa-award text-secondary me-2"></i>
+                <span>Free for premium members</span>
+              </div>
+            </div>
+            
+            <div class="detail-section">
+              <h3>About this Event</h3>
+              <p>Join Coach Miller for an interactive session covering youth basketball development. Bring your questions about practice planning, skill development, and game management.</p>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Topics Covered</h3>
+              <ul class="detail-list">
+                <li>Age-appropriate drills</li>
+                <li>Managing parents and expectations</li>
+                <li>Developing basketball IQ in young players</li>
+                <li>Creating a positive team culture</li>
+              </ul>
+            </div>
+            
+            <div class="detail-section">
+              <h3>Your Host</h3>
+              <div style="background-color: var(--secondary-bg); padding: 12px; border-radius: 6px;">
+                <p style="font-weight: 500; margin-bottom: 4px;">Coach James Miller</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">Former D1 college coach with 15 years experience in youth development</p>
+              </div>
+            </div>
+            
+            <button class="register-btn">
+              Register Now
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Practice Plan Builder (Hidden by default) -->
+      <div id="practice-builder" class="practice-builder">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>Create Practice Plan</h2>
+          <button class="back-btn" onclick="hidePracticeBuilder()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+        </div>
+        
+        <div class="plan-container">
+          <div class="form-group">
+            <label class="form-label">Plan Name</label>
+            <input type="text" class="form-input" value="My Practice Plan">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div>
+              <label class="form-label">Date</label>
+              <input type="text" class="form-input" value="May 22, 2025">
+            </div>
+            <div>
+              <label class="form-label">Team</label>
+              <select class="form-input">
+                <option>U12 Wildcats</option>
+                <option>U14 Panthers</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-input" value="90 minutes">
+          </div>
+        </div>
+        
+        <!-- Practice Plan Sections -->
+        <div>
+          <div style="margin-bottom: 15px;">
+            <div class="section-header-bar">
+              <div>
+                <h3 class="section-title">Warm-up</h3>
+                <div class="section-duration">15 min</div>
+              </div>
+              <button class="add-btn">
+                Add Drill
+              </button>
+            </div>
+            
+            <div class="section-body">
+              <div style="text-align: center; padding: 30px 0;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Add drills from the library</p>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <div class="section-header-bar">
+              <div>
+                <h3 class="section-title">Skills Development</h3>
+                <div class="section-duration">30 min</div>
+              </div>
+              <button class="add-btn">
+                Add Drill
+              </button>
+            </div>
+            
+            <div class="section-body">
+              <div style="background-color: var(--secondary-bg); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 32px; height: 32px; background-color: var(--primary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 12px;">
+                    <i class="fas fa-play" style="color: white; font-size: 0.8rem;"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 3px 0;">Defensive Stance & Footwork</h4>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                      10 min
+                    </div>
+                  </div>
+                </div>
+                <button style="background: none; border: none; color: var(--text-secondary);">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <div class="section-header-bar">
+              <div>
+                <h3 class="section-title">Team Concepts</h3>
+                <div class="section-duration">30 min</div>
+              </div>
+              <button class="add-btn">
+                Add Drill
+              </button>
+            </div>
+            
+            <div class="section-body">
+              <div style="background-color: var(--secondary-bg); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 32px; height: 32px; background-color: var(--primary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 12px;">
+                    <i class="fas fa-play" style="color: white; font-size: 0.8rem;"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 0.9rem; margin: 0 0 3px 0;">3-on-2, 2-on-1 Fast Break</h4>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                      15 min
+                    </div>
+                  </div>
+                </div>
+                <button style="background: none; border: none; color: var(--text-secondary);">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <div class="section-header-bar">
+              <div>
+                <h3 class="section-title">Cooldown</h3>
+                <div class="section-duration">15 min</div>
+              </div>
+              <button class="add-btn">
+                Add Drill
+              </button>
+            </div>
+            
+            <div class="section-body">
+              <div style="text-align: center; padding: 30px 0;">
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">Add drills from the library</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+          <button style="flex: 1; padding: 12px; border-radius: 6px; background-color: var(--secondary-bg); color: white; border: none;">
+            Save Draft
+          </button>
+          <button style="flex: 1; padding: 12px; border-radius: 6px; background-color: var(--primary-color); color: white; border: none; font-weight: 500;">
+            Create Plan
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tab-bar">
+      <button id="library-tab" class="tab-btn active" onclick="switchTab('library')">
+        <i class="fas fa-book"></i>
+        <span>Library</span>
+      </button>
+      <button id="events-tab" class="tab-btn" onclick="switchTab('events')">
+        <i class="fas fa-calendar"></i>
+        <span>Events</span>
+      </button>
+      <button id="mydrills-tab" class="tab-btn" onclick="switchTab('mydrills')">
+        <i class="fas fa-bookmark"></i>
+        <span>My Drills</span>
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    // Switch between tabs
+    function switchTab(tab) {
+      // Hide all views
+      document.getElementById('library-view').classList.remove('active');
+      document.getElementById('events-view').classList.remove('active');
+      document.getElementById('mydrills-view').classList.remove('active');
+      
+      // Deactivate all tabs
+      document.getElementById('library-tab').classList.remove('active');
+      document.getElementById('events-tab').classList.remove('active');
+      document.getElementById('mydrills-tab').classList.remove('active');
+      
+      // Hide any detail views or practice builder
+      hideAllDetailViews();
+      
+      // Activate selected tab and view
+      document.getElementById(tab + '-view').classList.add('active');
+      document.getElementById(tab + '-tab').classList.add('active');
+    }
+    
+    // Show drill detail
+    function showDrillDetail(id) {
+      // Hide the main views
+      document.getElementById('library-view').classList.remove('active');
+      document.getElementById('mydrills-view').classList.remove('active');
+      
+      // Show the drill detail view
+      document.getElementById('drill-detail-view-1').style.display = 'block';
+    }
+    
+    // Hide drill detail
+    function hideDrillDetail() {
+      // Hide the drill detail view
+      document.getElementById('drill-detail-view-1').style.display = 'none';
+      
+      // Show the appropriate view based on active tab
+      if (document.getElementById('library-tab').classList.contains('active')) {
+        document.getElementById('library-view').classList.add('active');
+      } else if (document.getElementById('mydrills-tab').classList.contains('active')) {
+        document.getElementById('mydrills-view').classList.add('active');
+      }
+    }
+    
+    // Show event detail
+    function showEventDetail(id) {
+      // Hide the events view
+      document.getElementById('events-view').classList.remove('active');
+      
+      // Show the event detail view
+      document.getElementById('event-detail-view-1').style.display = 'block';
+    }
+    
+    // Hide event detail
+    function hideEventDetail() {
+      // Hide the event detail view
+      document.getElementById('event-detail-view-1').style.display = 'none';
+      
+      // Show the events view
+      document.getElementById('events-view').classList.add('active');
+    }
+    
+    // Show practice builder
+    function showPracticeBuilder() {
+      // Hide the main views
+      document.getElementById('library-view').classList.remove('active');
+      document.getElementById('mydrills-view').classList.remove('active');
+      document.getElementById('drill-detail-view-1').style.display = 'none';
+      
+      // Show the practice builder
+      document.getElementById('practice-builder').style.display = 'block';
+    }
+    
+    // Hide practice builder
+    function hidePracticeBuilder() {
+      // Hide the practice builder
+      document.getElementById('practice-builder').style.display = 'none';
+      
+      // Show the mydrills view
+      document.getElementById('mydrills-view').classList.add('active');
+    }
+    
+    // Hide all detail views
+    function hideAllDetailViews() {
+      document.getElementById('drill-detail-view-1').style.display = 'none';
+      document.getElementById('event-detail-view-1').style.display = 'none';
+      document.getElementById('practice-builder').style.display = 'none';
+    }
+    
+    // Toggle bookmark
+    const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
+    bookmarkButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        if (this.classList.contains('active')) {
+          this.innerHTML = '<i class="fas fa-bookmark"></i>';
+        } else {
+          this.innerHTML = '<i class="far fa-bookmark"></i>';
+        }
+      });
+    });
+    
+    // Toggle filter buttons
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Find siblings in the same container
+        const container = this.parentElement;
+        const siblings = container.querySelectorAll('.filter-btn');
+        
+        // Remove active class from siblings
+        siblings.forEach(sibling => {
+          sibling.classList.remove('active');
+        });
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
